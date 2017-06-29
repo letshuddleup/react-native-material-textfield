@@ -52,7 +52,6 @@ export default class TextField extends PureComponent {
 
     label: PropTypes.string.isRequired,
     title: PropTypes.string,
-    iconOffset: PropTypes.number,
 
     characterRestriction: PropTypes.number,
 
@@ -62,7 +61,6 @@ export default class TextField extends PureComponent {
     disabled: PropTypes.bool,
 
     renderAccessory: PropTypes.func,
-    renderIcon: PropTypes.func,
 
     prefix: PropTypes.string,
     suffix: PropTypes.string,
@@ -247,15 +245,6 @@ export default class TextField extends PureComponent {
     );
   }
 
-  renderIcon() {
-    let { icon } = this.props;
-    return ( icon &&
-      <View style={styles.icon}>
-        {icon}
-      </View>
-    );
-  }
-
   renderAffix(type, active, focused) {
     let { [type]: affix, fontSize, baseColor, animationDuration } = this.props;
 
@@ -307,7 +296,6 @@ export default class TextField extends PureComponent {
     let active = !!(value || props.placeholder);
     let count = value.length;
     let restricted = limit < count;
-    let iconOffset = props.iconOffset || 25;
 
     let borderBottomColor = restricted?
       errorColor:
@@ -349,15 +337,8 @@ export default class TextField extends PureComponent {
             android: { textAlignVertical: 'top' },
           }),
         }:
-        { height: fontSize * 1.5 }
-      ),
-      ...(props.icon &&
-        {
-          marginLeft: iconOffset - 12
-        }
-      )
+        { height: fontSize * 1.5 }),
     };
-
 
     let errorStyle = {
       color: errorColor,
@@ -407,7 +388,6 @@ export default class TextField extends PureComponent {
       focused,
       errored,
       restricted,
-      startPosition: (props.icon ? iconOffset : 0)
     };
 
     return (
@@ -418,7 +398,6 @@ export default class TextField extends PureComponent {
           <Label {...labelProps}>{label}</Label>
 
           <View style={styles.row}>
-            {this.renderIcon()}
             {this.renderAffix('prefix', active, focused)}
 
             <TextInput

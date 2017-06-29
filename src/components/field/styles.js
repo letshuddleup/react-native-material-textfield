@@ -27,9 +27,4 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'flex-start',
   },
-
-  icon: {
-    alignSelf: 'center',
-    marginLeft: 2
-  }
 });

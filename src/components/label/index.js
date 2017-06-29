@@ -17,7 +17,6 @@ export default class Label extends PureComponent {
     focused: PropTypes.bool,
     errored: PropTypes.bool,
     restricted: PropTypes.bool,
-    startPosition: PropTypes.number,
 
     fontSize: PropTypes.number.isRequired,
     activeFontSize: PropTypes.number.isRequired,
@@ -96,15 +95,6 @@ export default class Label extends PureComponent {
       ],
     });
 
-    const startPosition = props.startPosition || 0;
-    let left = input.interpolate({
-      inputRange: [0, 1],
-      outputRange: [
-        startPosition,
-        0,
-      ],
-    });
-
     let textStyle = {
       fontSize: input.interpolate({
         inputRange: [0, 1],
@@ -117,7 +107,6 @@ export default class Label extends PureComponent {
     let containerStyle = {
       position: 'absolute',
       top,
-      left
     };
 
     return (
