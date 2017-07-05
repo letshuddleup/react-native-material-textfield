@@ -74,6 +74,7 @@ export default class Label extends PureComponent {
       children,
       restricted,
       fontSize,
+      fontFamily,
       activeFontSize,
       errorColor,
       baseColor,
@@ -106,12 +107,13 @@ export default class Label extends PureComponent {
     });
 
     let textStyle = {
+      color,
+      fontFamily: fontFamily,
       fontSize: input.interpolate({
         inputRange: [0, 1],
         outputRange: [fontSize, activeFontSize],
       }),
 
-      color,
     };
 
     let containerStyle = {

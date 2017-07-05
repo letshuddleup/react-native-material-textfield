@@ -44,6 +44,7 @@ export default class TextField extends PureComponent {
     animationDuration: PropTypes.number,
 
     fontSize: PropTypes.number,
+    fontFamily: PropTypes.string,
     labelFontSize: PropTypes.number,
 
     tintColor: PropTypes.string,
@@ -257,7 +258,7 @@ export default class TextField extends PureComponent {
   }
 
   renderAffix(type, active, focused) {
-    let { [type]: affix, fontSize, baseColor, animationDuration } = this.props;
+    let { [type]: affix, fontSize, fontFamily, baseColor, animationDuration } = this.props;
 
     if (null == affix) {
       return null;
@@ -268,6 +269,7 @@ export default class TextField extends PureComponent {
       active,
       focused,
       fontSize,
+      fontFamily,
       baseColor,
       animationDuration,
     };
@@ -290,6 +292,7 @@ export default class TextField extends PureComponent {
       disabled,
       animationDuration,
       fontSize,
+      fontFamily,
       labelFontSize: activeFontSize,
       tintColor,
       baseColor,
@@ -398,6 +401,7 @@ export default class TextField extends PureComponent {
 
     let labelProps = {
       fontSize,
+      fontFamily,
       activeFontSize,
       tintColor,
       baseColor,
