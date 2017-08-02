@@ -284,6 +284,7 @@ export default class TextField extends PureComponent {
     let {
       style,
       label,
+      labelStyle,
       title,
       value,
       defaultValue,
@@ -411,6 +412,7 @@ export default class TextField extends PureComponent {
       focused,
       errored,
       restricted,
+      labelStyle,
       startPosition: (props.icon ? iconOffset : 0)
     };
 

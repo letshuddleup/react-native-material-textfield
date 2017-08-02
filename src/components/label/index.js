@@ -79,6 +79,7 @@ export default class Label extends PureComponent {
       errorColor,
       baseColor,
       tintColor,
+      labelStyle,
       ...props
     } = this.props;
 
@@ -97,6 +98,12 @@ export default class Label extends PureComponent {
       ],
     });
 
+    const initialOpacity = labelStyle.opacity || 1;
+    let opacity = input.interpolate({
+      inputRange: [0, 1],
+      outputRange: [ initialOpacity, 1]
+    })
+
     const startPosition = props.startPosition || 0;
     let left = input.interpolate({
       inputRange: [0, 1],
@@ -113,7 +120,8 @@ export default class Label extends PureComponent {
         inputRange: [0, 1],
         outputRange: [fontSize, activeFontSize],
       }),
-
+      ...labelStyle,
+      opacity,
     };
 
     let containerStyle = {
