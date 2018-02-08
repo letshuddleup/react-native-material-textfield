@@ -95,7 +95,7 @@ export default class Label extends PureComponent {
       ...props
     } = this.props;
     
-    let activeColor = style.color ? style.color : tintColor;
+    let activeColor = style && style.color ? style.color : tintColor;
     let color = restricted?
       errorColor:
       focus.interpolate({
