@@ -6,15 +6,16 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 let styles = {
   scroll: {
-    paddingHorizontal: 4,
-    paddingVertical: 30,
     backgroundColor: '#E8EAF6',
   },
 
   container: {
-    marginHorizontal: 4,
-    marginVertical: 8,
-    paddingHorizontal: 8,
+    margin: 8,
+    marginTop: 24,
+  },
+
+  contentContainer: {
+    padding: 8,
   },
 };
 
@@ -147,7 +148,11 @@ export default function init() {
         .toLowerCase();
 
       return (
-        <ScrollView style={styles.scroll}>
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.contentContainer}
+          keyboardShouldPersistTaps='handled'
+        >
           <View style={styles.container}>
             <TextField
               ref={this.firstnameRef}
@@ -183,6 +188,7 @@ export default function init() {
               onSubmitEditing={this.onSubmitAbout}
               returnKeyType='next'
               multiline={true}
+              blurOnSubmit={true}
               label='About (optional)'
               characterRestriction={140}
             />
@@ -210,6 +216,7 @@ export default function init() {
               autoCapitalize='none'
               autoCorrect={false}
               enablesReturnKeyAutomatically={true}
+              clearTextOnFocus={true}
               onFocus={this.onFocus}
               onChangeText={this.onChangeText}
               onSubmitEditing={this.onSubmitPassword}

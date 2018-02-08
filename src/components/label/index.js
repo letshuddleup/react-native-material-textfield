@@ -18,14 +18,18 @@ export default class Label extends PureComponent {
     errored: PropTypes.bool,
     restricted: PropTypes.bool,
 
+    baseSize: PropTypes.number.isRequired,
     fontSize: PropTypes.number.isRequired,
     activeFontSize: PropTypes.number.isRequired,
+    basePadding: PropTypes.number.isRequired,
 
     tintColor: PropTypes.string.isRequired,
     baseColor: PropTypes.string.isRequired,
     errorColor: PropTypes.string.isRequired,
 
     animationDuration: PropTypes.number.isRequired,
+
+    style: Animated.Text.propTypes.style,
 
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -36,35 +40,39 @@ export default class Label extends PureComponent {
   constructor(props) {
     super(props);
 
-    let { active, focused, errored } = this.props;
-
     this.state = {
-      input: new Animated.Value((active || focused)? 1 : 0),
-      focus: new Animated.Value(errored? -1 : (focused? 1 : 0)),
+      input: new Animated.Value(this.inputState()),
+      focus: new Animated.Value(this.focusState()),
     };
   }
 
   componentWillReceiveProps(props) {
     let { focus, input } = this.state;
-    let { active, focused, errored, animationDuration } = this.props;
+    let { active, focused, errored, animationDuration: duration } = this.props;
 
-    if ((focused ^ props.focused) || (active ^ props.active)) {
+    if (focused ^ props.focused || active ^ props.active) {
+      let toValue = this.inputState(props);
+
       Animated
-        .timing(input, {
-          toValue: (props.active || props.focused)? 1 : 0,
-          duration: animationDuration,
-        })
+        .timing(input, { toValue, duration })
         .start();
     }
 
-    if ((focused ^ props.focused) || (errored ^ props.errored)) {
+    if (focused ^ props.focused || errored ^ props.errored) {
+      let toValue = this.focusState(props);
+
       Animated
-        .timing(focus, {
-          toValue: props.errored? -1 : (props.focused? 1 : 0),
-          duration: animationDuration,
-        })
+        .timing(focus, { toValue, duration })
         .start();
     }
+  }
+
+  inputState({ focused, active } = this.props) {
+    return active || focused? 1 : 0;
+  }
+
+  focusState({ focused, errored } = this.props) {
+    return errored? -1 : (focused? 1 : 0);
   }
 
   render() {
@@ -77,6 +85,13 @@ export default class Label extends PureComponent {
       errorColor,
       baseColor,
       tintColor,
+      baseSize,
+      basePadding,
+      style,
+      errored,
+      active, 
+      focused,
+      animationDuration,
       ...props
     } = this.props;
 
@@ -90,8 +105,8 @@ export default class Label extends PureComponent {
     let top = input.interpolate({
       inputRange: [0, 1],
       outputRange: [
-        32 + fontSize * 0.25,
-        32 - fontSize * 0.25 - activeFontSize,
+        baseSize + fontSize * 0.25,
+        baseSize - basePadding - activeFontSize,
       ],
     });
 
@@ -111,7 +126,9 @@ export default class Label extends PureComponent {
 
     return (
       <Animated.View style={containerStyle}>
-        <Animated.Text style={textStyle} {...props}>{children}</Animated.Text>
+        <Animated.Text style={[style, textStyle]} {...props}>
+          {children}
+        </Animated.Text>
       </Animated.View>
     );
   }
